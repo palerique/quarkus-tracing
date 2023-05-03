@@ -13,6 +13,12 @@ volumes:
 
 services:
 
+  service-a:
+    image: ph/quarkus-service-a:1.0.0-SNAPSHOT
+    container_name: service-a
+    ports:
+      - "8080:8080"
+
   redpanda-0:
     command:
       - redpanda
@@ -106,3 +112,12 @@ services:
       - "5432:5432"
     networks:
       - quarkus-tracing_network
+
+  prometheus:
+    image: quay.io/prometheus/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus_scrape_configs.yml:/etc/prometheus/prometheus.yml
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml:Z

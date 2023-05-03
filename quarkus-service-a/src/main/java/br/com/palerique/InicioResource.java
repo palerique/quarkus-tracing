@@ -1,5 +1,7 @@
 package br.com.palerique;
 
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.reactive.messaging.MutinyEmitter;
 import jakarta.inject.Inject;
@@ -24,6 +26,8 @@ public class InicioResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
+  @Counted
+  @Timed
   public Uni<Response> iniciar() {
     log.info("Iniciando...");
     return piadaService
