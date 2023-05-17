@@ -1,0 +1,61 @@
+global:
+  scrape_interval: 1s
+  external_labels:
+    system: quarkus-tracing
+
+scrape_configs:
+#  - job_name: prometheus
+#    static_configs:
+#      - targets: [ 'host.docker.internal:9090' ]
+
+  - job_name: service-a
+    metrics_path: /q/metrics
+    honor_labels: true
+    static_configs:
+      - targets: [ 'host.docker.internal:8080' ]
+        labels:
+          app: service-a
+          application: service-a
+          system: quarkus-tracing
+
+#    relabel_configs:
+#      - target_label: application
+#        replacement: quarkus-tracing
+#      - target_label: node_name
+#        replacement: service-a
+#      - target_label: service
+#        replacement: service-a
+#      - target_label: kubernetes_pod_name
+#        replacement: service-a-1
+#      - target_label: instance
+#        replacement: service-a-1
+#      - target_label: namespace
+#        replacement: quarkus-tracing
+#      - target_label: environment
+#        replacement: test
+#
+  - job_name: service-b
+    metrics_path: /q/metrics
+    honor_labels: true
+    static_configs:
+      - targets: [ 'host.docker.internal:8180' ]
+        labels:
+          app: service-b
+          application: service-b
+          system: quarkus-tracing
+
+  - job_name: service-piada
+    metrics_path: /q/metrics
+    honor_labels: true
+    static_configs:
+      - targets: [ 'host.docker.internal:8280' ]
+        labels:
+          app: service-piada
+          application: service-piada
+          system: quarkus-tracing
+
+#  - job_name: 'otel-collector'
+#    scrape_interval: 1s
+#    honor_labels: true
+#    static_configs:
+#      - targets: [ 'otel-collector:8889' ]

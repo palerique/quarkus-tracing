@@ -1,0 +1,58 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+exporters:
+  jaeger:
+    endpoint: jaeger-all-in-one:14250
+    tls:
+      insecure: true
+
+  #  - Metrics e Logging ainda não são suportados pelo Quarkus (17/05/2023)
+  #  https://quarkus.io/guides/opentelemetry
+  #  - OpenTelemetry também ainda não está estável (17/05/2023)
+  #  https://quarkus.io/guides/opentelemetry
+  #  prometheus:
+  #    endpoint: "0.0.0.0:8889"
+  #    send_timestamps: true
+  #    resource_to_telemetry_conversion:
+  #      enabled: true
+  #    namespace: otelcollector
+  #    const_labels:
+  #      system: quarkus-tracing
+
+#  logging:
+#    loglevel: info
+#  otlp/elastic:
+# Elastic APM server https endpoint without the "https://" prefix
+#    endpoint: "${ELASTIC_APM_SERVER_ENDPOINT}"
+#    headers:
+#       Elastic APM Server secret token
+#      Authorization: "Bearer ${ELASTIC_APM_SECRET_TOKEN}"
+
+processors:
+  batch:
+
+extensions:
+  health_check:
+
+service:
+  extensions: [ health_check ]
+  pipelines:
+    traces:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ jaeger ]
+#  - Metrics e Logging ainda não são suportados pelo Quarkus (17/05/2023)
+#  https://quarkus.io/guides/opentelemetry
+#  - OpenTelemetry também ainda não está estável (17/05/2023)
+#  https://quarkus.io/guides/opentelemetry
+#    metrics:
+#      receivers: [ otlp ]
+#      exporters: [ prometheus, logging ]
+#    logs:
+#      receivers: [ otlp ]
+#      exporters: [ logging,otlp/elastic ]
+

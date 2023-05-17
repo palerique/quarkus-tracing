@@ -19,7 +19,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class InicioResource {
 
   @Inject
-  @Channel("words-out")
+  @Channel("piadas-out")
   MutinyEmitter<String> priceEmitter;
 
   @RestClient PiadaService piadaService;

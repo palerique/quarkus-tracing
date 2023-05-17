@@ -13,12 +13,6 @@ volumes:
 
 services:
 
-  service-a:
-    image: ph/quarkus-service-a:1.0.0-SNAPSHOT
-    container_name: service-a
-    ports:
-      - "8080:8080"
-
   redpanda-0:
     command:
       - redpanda
@@ -89,14 +83,22 @@ services:
     image: otel/opentelemetry-collector:latest
     command: [ "--config=/etc/otel-collector-config.yaml" ]
     volumes:
-      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml:Z
+      - ./opentelemetry-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml:Z
     ports:
-      - "13133:13133" # Health_check extension
-      - "4317:4317"   # OTLP gRPC receiver
+      - "4317:4317"   # OTLP HTTP receiver
+      #      - "1888:1888"   # pprof extension
+      #      - "4318:4318"   # OTLP gRPC receiver
+      #      - "4320:4320"   # OTLP gRPC receiver
+      #      - "8888:8888"   # Prometheus metrics exposed by the collector
+      #      - "8889:8889"   # Prometheus exporter metrics
+      #      - "13133:13133" # health_check extension
+      #      - "55670:55679" # zpages extension
     depends_on:
       - jaeger-all-in-one
     networks:
       - quarkus-tracing_network
+  #    environment:
+  # TODO:      - ELASTIC_APM_SERVER_ENDPOINT=http://elasticsearch:9200
 
   postgres:
     container_name: postgres
@@ -119,5 +121,57 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus_scrape_configs.yml:/etc/prometheus/prometheus.yml
-      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml:Z
+      - ./prometheus/prometheus_scrape_configs.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - quarkus-tracing_network
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - quarkus-tracing_network
+
+# Logging:
+
+#  elasticsearch:
+#    image: docker.io/elastic/elasticsearch:7.16.3
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    environment:
+#      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+#      discovery.type: "single-node"
+#      xpack.security.enabled: false
+#    networks:
+#      - quarkus-tracing_network
+
+#  logstash:
+#    image: docker.io/elastic/logstash:7.16.3
+#    volumes:
+#      - source: ./pipelines
+#        target: /usr/share/logstash/pipeline
+#        type: bind
+#    ports:
+#      - "12201:12201/udp"
+#      - "5001:5000"
+#      - "9600:9600"
+#    networks:
+#      - quarkus-tracing_network
+#    depends_on:
+#      - elasticsearch
+
+#  kibana:
+#    image: docker.io/elastic/kibana:7.16.3
+#    ports:
+#      - "5601:5601"
+#    networks:
+#      - quarkus-tracing_network
+#    depends_on:
+#      - elasticsearch

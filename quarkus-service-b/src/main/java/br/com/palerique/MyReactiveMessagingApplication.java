@@ -12,7 +12,7 @@ import org.eclipse.microprofile.reactive.messaging.*;
 @JBossLog
 public class MyReactiveMessagingApplication {
 
-  @Incoming("words-in")
+  @Incoming("piadas-in")
   @NonBlocking
   @WithSession
   public Uni<Void> receiveMessage(String message) {
