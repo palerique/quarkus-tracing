@@ -24,6 +24,7 @@ dependencies {
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
     implementation("net.datafaker:datafaker:1.9.0")
+    implementation("io.quarkus:quarkus-logging-gelf")
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
     compileOnly("org.projectlombok:lombok:1.18.26")
