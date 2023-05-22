@@ -123,7 +123,6 @@ services:
     networks:
       - quarkus-tracing_network
   #---------------------------------------------
-
   #Observability - Metrics:
   prometheus:
     image: quay.io/prometheus/prometheus:latest
