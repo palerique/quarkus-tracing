@@ -131,6 +131,26 @@ services:
     ports:
       - "9090:9090"
     volumes:
+      - ./configs/prometheus/prometheus_scrape_configs.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - quarkus-tracing_network
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./configs/grafana/data:/var/lib/grafana
+      - ./configs/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./configs/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - quarkus-tracing_network
+  #---------------------------------------------
+  #Observability - Logging:
+  mongodb:
+    image: "mongo:5.0"
+    volumes:
       - "mongodb_data:/data/db"
     restart: "on-failure"
   opensearch:
