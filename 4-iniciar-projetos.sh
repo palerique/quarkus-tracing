@@ -24,7 +24,7 @@ quarkus create app br.com.palerique:quarkus-servico-piada \
   --gradle-kotlin-dsl \
   --no-code
 
-quarkus create app br.com.palerique:quarkus-servico-scylladb \
+quarkus create app br.com.palerique:quarkus-servico-scylla \
   --extension="$EXTENSIONS" \
   --gradle-kotlin-dsl \
   --no-code
