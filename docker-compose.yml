@@ -14,6 +14,7 @@ volumes:
   os_data:
   graylog_data:
   graylog_journal:
+  scylla-data:
 
 services:
 
@@ -84,6 +85,14 @@ services:
       - "5432:5432"
     networks:
       - quarkus-tracing_network
+  scylla:
+    image: scylladb/scylla:5.1.0
+    command: [ "--smp", "1", "--overprovisioned", "1", "--memory", "512M", "--alternator-port", "8000", "--alternator-write-isolation", "only_rmw_uses_lwt" ]
+    cpu_count: 1
+    ports:
+      - "9042:9042"
+    volumes:
+      - scylla-data:/var/lib/scylla
   #---------------------------------------------
 
   #Observability - Collector:
@@ -148,12 +157,12 @@ services:
   #---------------------------------------------
   #Observability - Logging:
   mongodb:
-    image: "mongo:5.0"
+    image: "mongo:latest"
     volumes:
       - "mongodb_data:/data/db"
     restart: "on-failure"
   opensearch:
-    image: "opensearchproject/opensearch:2.4.0"
+    image: "opensearchproject/opensearch:latest"
     environment:
       - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
       - "bootstrap.memory_lock=true"
@@ -173,7 +182,7 @@ services:
     restart: "on-failure"
   graylog:
     hostname: "server"
-    image: "graylog/graylog:5.1"
+    image: "graylog/graylog:5.1.0"
     depends_on:
       opensearch:
         condition: "service_started"

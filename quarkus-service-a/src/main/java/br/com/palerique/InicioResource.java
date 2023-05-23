@@ -22,6 +22,10 @@ public class InicioResource {
   @Channel("piadas-out")
   MutinyEmitter<String> priceEmitter;
 
+  @Inject
+  @Channel("piadas-out-scylladb")
+  MutinyEmitter<String> priceEmitterScyllaDb;
+
   @RestClient PiadaService piadaService;
 
   @GET
@@ -30,6 +34,10 @@ public class InicioResource {
   @Timed
   public Uni<Response> iniciar() {
     log.info("Iniciando...");
+    //    if (Math.random() > 0.5) {
+    //      log.error("Random exception occurred");
+    //      throw new RuntimeException("Random exception occurred");
+    //    }
     return piadaService
         .getPiadaRandomica()
         .onItem()
@@ -42,10 +50,17 @@ public class InicioResource {
                     .with(unused -> log.info("Enviada para o kafka: " + piada)))
         .onItem()
         .ifNotNull()
+        .invoke(
+            piada ->
+                priceEmitterScyllaDb
+                    .send(piada)
+                    .subscribe()
+                    .with(unused -> log.info("Enviada para o kafka (ScyllaDb): " + piada)))
+        .onItem()
         .transform(entity -> Response.ok(entity).build())
         .onFailure()
         .recoverWithItem(
-            (throwable) -> {
+            throwable -> {
               log.error("Erro ao iniciar", throwable);
               return Response.serverError()
                   .entity(throwable.getMessage())

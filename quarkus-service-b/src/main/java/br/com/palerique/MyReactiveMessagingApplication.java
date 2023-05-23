@@ -19,6 +19,10 @@ public class MyReactiveMessagingApplication {
     log.infof("Received message: %s", message);
     final Piada piada = new Piada();
     piada.setTexto(message);
+//    if (Math.random() > 0.5) {
+//      log.error("Random exception occurred quando persistindo");
+//      throw new RuntimeException("Random exception occurred");
+//    }
     return Panache.withTransaction(piada::persist)
         .onItem()
         .ifNotNull()

@@ -11,12 +11,20 @@ logging-gelf'
 
 quarkus create app br.com.palerique:quarkus-servico-a \
   --extension="$EXTENSIONS" \
-  --gradle-kotlin-dsl
+  --gradle-kotlin-dsl \
+  --no-code
 
 quarkus create app br.com.palerique:quarkus-servico-b \
   --extension="$EXTENSIONS" \
-  --gradle-kotlin-dsl
+  --gradle-kotlin-dsl \
+  --no-code
 
 quarkus create app br.com.palerique:quarkus-servico-piada \
   --extension="$EXTENSIONS" \
-  --gradle-kotlin-dsl
+  --gradle-kotlin-dsl \
+  --no-code
+
+quarkus create app br.com.palerique:quarkus-servico-scylladb \
+  --extension="$EXTENSIONS" \
+  --gradle-kotlin-dsl \
+  --no-code
