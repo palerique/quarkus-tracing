@@ -17,7 +17,7 @@ class PiadaRepository {
   private final PreparedStatement selectById;
 
   PiadaRepository(ScyllaClusterConfig scyllaClusterConfig) {
-    Cluster cluster = scyllaClusterConfig.buildCluster();
+    final var cluster = scyllaClusterConfig.buildCluster();
     this.session = cluster.connect("piadas");
     selectAll = session.prepare("SELECT * FROM piadas");
     insert = session.prepare("INSERT INTO piadas (id, texto) VALUES (?, ?)");
@@ -28,7 +28,7 @@ class PiadaRepository {
   @WithSpan
   Piada save(Piada piada) {
     final var id = UUID.randomUUID();
-    BoundStatement bs = insert.bind(id, piada.getTexto());
+    final var bs = insert.bind(id, piada.getTexto());
     session.execute(bs);
     piada.setId(id);
     return piada;
@@ -37,9 +37,9 @@ class PiadaRepository {
   @Timed
   @WithSpan
   Optional<Piada> findById(UUID id) {
-    BoundStatement bs = selectById.bind(id);
-    ResultSet rs = session.execute(bs);
-    Row row = rs.one();
+    final var bs = selectById.bind(id);
+    final var rs = session.execute(bs);
+    final var row = rs.one();
     if (row != null) {
       return Optional.of(
           Piada.builder().id(row.getUUID("id")).texto(row.getString("texto")).build());

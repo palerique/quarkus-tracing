@@ -17,7 +17,7 @@ public class MyReactiveMessagingApplication {
   @WithSession
   public Uni<Void> receiveMessage(String message) {
     log.infof("Received message: %s", message);
-    final Piada piada = new Piada();
+    final var piada = new Piada();
     piada.setTexto(message);
 //    if (Math.random() > 0.5) {
 //      log.error("Random exception occurred quando persistindo");

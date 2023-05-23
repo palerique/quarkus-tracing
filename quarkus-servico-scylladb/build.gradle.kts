@@ -22,7 +22,6 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // Dependencias de ORM/Persistence:
-    implementation("io.quarkus:quarkus-hibernate-reactive-panache")
     implementation("com.scylladb:scylla-driver-core:3.11.2.4")
     implementation("com.scylladb:scylla-driver-mapping:3.11.2.4")
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
