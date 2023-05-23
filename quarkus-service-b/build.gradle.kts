@@ -36,7 +36,6 @@ dependencies {
     implementation("io.quarkus:quarkus-opentelemetry")
     implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
     implementation("io.quarkus:quarkus-logging-gelf")
-    implementation("io.opentelemetry.instrumentation:opentelemetry-jdbc")
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // Outras dependencias:
     compileOnly("org.projectlombok:lombok:1.18.26")

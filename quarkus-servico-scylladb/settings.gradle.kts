@@ -10,4 +10,4 @@ pluginManagement {
         id(quarkusPluginId) version quarkusPluginVersion
     }
 }
-rootProject.name="quarkus-servico-scylladb"
+rootProject.name="quarkus-servico-scylla"

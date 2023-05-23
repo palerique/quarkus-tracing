@@ -10,4 +10,4 @@ pluginManagement {
         id(quarkusPluginId) version quarkusPluginVersion
     }
 }
-rootProject.name="quarkus-service-piada"
+rootProject.name="quarkus-servico-piada"
