@@ -17,7 +17,7 @@ volumes:
   scylla-data:
 
 services:
-
+  #---------------------------------------------
   #  Application Kafka:
   redpanda-0:
     command:
@@ -69,8 +69,7 @@ services:
     depends_on:
       - redpanda-0
   #---------------------------------------------
-
-  #  Application Database:
+  #  Application Databases:
   postgres:
     container_name: postgres
     image: postgres:latest
@@ -94,7 +93,6 @@ services:
     volumes:
       - scylla-data:/var/lib/scylla
   #---------------------------------------------
-
   #Observability - Collector:
   otel-collector:
     container_name: otel-collector
@@ -116,7 +114,6 @@ services:
     networks:
       - quarkus-tracing_network
   #---------------------------------------------
-
   #Observability - Tracing:
   jaeger-all-in-one:
     container_name: jaeger-all-in-one
