@@ -10,4 +10,4 @@ pluginManagement {
         id(quarkusPluginId) version quarkusPluginVersion
     }
 }
-rootProject.name="quarkus-service-b"
+rootProject.name="quarkus-servico-b"
