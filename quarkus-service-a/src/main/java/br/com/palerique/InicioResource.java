@@ -20,11 +20,11 @@ public class InicioResource {
 
   @Inject
   @Channel("piadas-out")
-  MutinyEmitter<String> priceEmitter;
+  MutinyEmitter<String> piadaEmitter;
 
   @Inject
   @Channel("piadas-out-scylladb")
-  MutinyEmitter<String> priceEmitterScyllaDb;
+  MutinyEmitter<String> piadaEmitterScyllaDb;
 
   @RestClient PiadaService piadaService;
 
@@ -44,7 +44,7 @@ public class InicioResource {
         .ifNotNull()
         .invoke(
             piada ->
-                priceEmitter
+                piadaEmitter
                     .send(piada)
                     .subscribe()
                     .with(unused -> log.info("Enviada para o kafka: " + piada)))
@@ -52,7 +52,7 @@ public class InicioResource {
         .ifNotNull()
         .invoke(
             piada ->
-                priceEmitterScyllaDb
+                piadaEmitterScyllaDb
                     .send(piada)
                     .subscribe()
                     .with(unused -> log.info("Enviada para o kafka (ScyllaDb): " + piada)))
