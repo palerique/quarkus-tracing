@@ -45,29 +45,6 @@ services:
       - "18082:18082"
       - "19092:19092"
       - "19644:9644"
-  redpanda_console:
-    container_name: redpanda-console
-    image: docker.redpanda.com/vectorized/console:v2.2.3
-    networks:
-      - quarkus-tracing_network
-    entrypoint: /bin/sh
-    command: -c 'echo "$$CONSOLE_CONFIG_FILE" > /tmp/config.yml; /app/console'
-    environment:
-      CONFIG_FILEPATH: /tmp/config.yml
-      CONSOLE_CONFIG_FILE: |
-        kafka:
-          brokers: ["redpanda-0:9092"]
-          schemaRegistry:
-            enabled: true
-            urls: ["http://redpanda-0:8081"]
-        redpanda:
-          adminApi:
-            enabled: true
-            urls: ["http://redpanda-0:9644"]
-    ports:
-      - "9080:8080"
-    depends_on:
-      - redpanda-0
   #---------------------------------------------
   #  Application Databases:
   postgres:
@@ -84,14 +61,6 @@ services:
       - "5432:5432"
     networks:
       - quarkus-tracing_network
-  scylla:
-    image: scylladb/scylla:5.1.0
-    command: [ "--smp", "1", "--overprovisioned", "1", "--memory", "512M", "--alternator-port", "8000", "--alternator-write-isolation", "only_rmw_uses_lwt" ]
-    cpu_count: 1
-    ports:
-      - "9042:9042"
-    volumes:
-      - scylla-data:/var/lib/scylla
   #---------------------------------------------
   #Observability - Collector:
   otel-collector:
