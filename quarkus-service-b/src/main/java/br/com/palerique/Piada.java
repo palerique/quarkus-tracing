@@ -6,9 +6,10 @@ import lombok.*;
 
 @Entity
 @Getter
-@Setter
-@ToString
+@ToString(callSuper = true)
 @RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Piada extends PanacheEntity {
-  private String texto;
+    private String texto;
 }
