@@ -1,3 +1,4 @@
 /configs/grafana/data/alerting/1/__default__.tmpl
 /configs/grafana/data/grafana.db
 .idea
+.DS_Store
