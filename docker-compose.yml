@@ -33,7 +33,7 @@ services:
       - --smp 1
       - --memory 1G
       - --mode dev-container
-      - --default-log-level=debug
+      - --default-log-level=info
     image: docker.redpanda.com/redpandadata/redpanda:v23.1.7
     container_name: redpanda-0
     volumes:
