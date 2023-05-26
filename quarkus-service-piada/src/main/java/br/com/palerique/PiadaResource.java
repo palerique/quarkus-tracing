@@ -15,12 +15,12 @@ public class PiadaResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Uni<String> getRandomJoke() {
-    log.info("Getting random joke...");
-//    if (Math.random() > 0.5) {
-//      log.error("Random exception occurred on PiadaResource");
-//      throw new RuntimeException("Random exception occurred");
-//    }
+  public Uni<String> obterPiadaAleatoria() {
+    log.info("Obtendo piada aleatória...");
+    //    if (Math.random() > 0.5) {
+    //      log.error("Excecaoo aleatoria ocorreu em PiadaResource");
+    //      throw new RuntimeException("Excecaoo aleatoria ocorreu em PiadaResource");
+    //    }
     return Uni.createFrom().item(new Faker(new Locale("pt-BR")).chuckNorris().fact());
   }
 }

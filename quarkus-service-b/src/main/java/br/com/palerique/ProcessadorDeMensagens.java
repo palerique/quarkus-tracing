@@ -13,24 +13,20 @@ public class ProcessadorDeMensagens {
 
     @Incoming("piadas-in")
     @WithSession
-    public Uni<Void> receberMensagem(String textoDaPiada) {
-        log.infof("Recebendo piada: %s", textoDaPiada);
-        final var piada = Piada.builder().texto(textoDaPiada).build();	
-//    if (Math.random() > 0.5) {
-//      log.error("Random exception occurred quando persistindo");
-//      throw new RuntimeException("Random exception occurred");
-//    }
+    public Uni<Void> processar(String mensagem) throws InterruptedException {
+        log.infof("Processando mensagem: %s", mensagem);
+        final var piada = Piada.builder().texto(mensagem).build();
         return Panache.withTransaction(piada::persist)
                 .onItem()
                 .ifNotNull()
-                .transformToUni(piadaPersistida -> {
-                    log.infof("Piada persistida: %s", piadaPersistida);
-                    return Piada.count()
-                            .onItem()
-                            .ifNotNull()
-                            .invoke(piadas -> log.infof("Quantidade de Piadas: %s", piadas))
-                            .replaceWithVoid();
-                });
+                .transformToUni(
+                        piadaPersistida -> {
+                            log.infof("Piada persistida: %s", piadaPersistida);
+                            return Piada.count()
+                                    .onItem()
+                                    .ifNotNull()
+                                    .invoke(count -> log.infof("Total de piadas: %d", count))
+                                    .replaceWithVoid();
+                        });
     }
-
 }
