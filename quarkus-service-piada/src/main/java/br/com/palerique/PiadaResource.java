@@ -18,8 +18,8 @@ public class PiadaResource {
   public Uni<String> obterPiadaAleatoria() {
     log.info("Obtendo piada aleatória...");
     //    if (Math.random() > 0.5) {
-    //      log.error("Excecaoo aleatoria ocorreu em PiadaResource");
-    //      throw new RuntimeException("Excecaoo aleatoria ocorreu em PiadaResource");
+    //      log.error("Exceção aleatória ocorreu em PiadaResource");
+    //      throw new RuntimeException("Exceção aleatória ocorreu em PiadaResource");
     //    }
     return Uni.createFrom().item(new Faker(new Locale("pt-BR")).chuckNorris().fact());
   }
