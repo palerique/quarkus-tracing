@@ -22,10 +22,6 @@ public class InicioResource {
   @Channel("piadas-out")
   MutinyEmitter<String> piadaEmitter;
 
-  @Inject
-  @Channel("piadas-out-scylladb")
-  MutinyEmitter<String> piadaEmitterScyllaDb;
-
   @RestClient PiadaService piadaService;
 
   @GET
