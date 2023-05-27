@@ -21,4 +21,8 @@ pushd quarkus-service-piada || exit
 open_terminal_in_folder "$(pwd)" "./gradlew clean quarkusDev"
 popd || exit
 
+#pushd servico-b || exit
+#open_terminal_in_folder "$(pwd)" "./gradlew clean quarkusDev"
+#popd || exit
+
 docker compose logs -f --tail=0
