@@ -9,7 +9,7 @@ open_terminal_in_folder() {
 
 docker compose up -d
 
-sleep 30
+sleep 60
 
 ./2-criar-input-no-graylog.sh
 
@@ -21,4 +21,4 @@ pushd quarkus-service-piada || exit
 open_terminal_in_folder "$(pwd)" "./gradlew clean quarkusDev"
 popd || exit
 
-docker compose logs -f --tail=10
+docker compose logs -f --tail=0
